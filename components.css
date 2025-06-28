@@ -1542,8 +1542,9 @@ body.menu-open {
     transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
+    z-index: 9999;
     transition: var(--transition);
-    /* SADECE ESKİ iPHONE İÇİN: backdrop-filter kaldırıldı */
+
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
