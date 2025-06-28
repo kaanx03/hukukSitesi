@@ -1,0 +1,522 @@
+/* ============================= 
+   RESPONSIVE.CSS - Tüm Responsive Stiller
+   ============================= */
+
+/* Mobile - 500px ve altı */
+@media (max-width: 500px) {
+  .hero-subtitle {
+    display: none !important;
+  }
+  .hero-stats {
+    display: none;
+  }
+}
+
+/* Tablet - 1024px ve altı */
+@media (max-width: 1024px) {
+  .about-modern-layout {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .about-hero-card,
+  .about-stats-section {
+    height: auto;
+  }
+
+  .about-stats-section {
+    grid-template-rows: auto auto;
+  }
+
+  .blog-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .contact-content {
+    grid-template-columns: 1fr !important;
+    gap: 3rem !important;
+  }
+
+  .contact-info-modern {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .contact-form {
+    padding: 2.5rem !important;
+  }
+
+  .contact-form h3 {
+    font-size: 1.4rem !important;
+  }
+
+  .form-description {
+    font-size: 1rem !important;
+  }
+
+  .lawyer-profile {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .expertise-grid-modern {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  /* Services için tablet optimizasyonu */
+  .services {
+    padding: 60px 0;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+
+  .service-card {
+    height: 200px;
+    padding: 1.5rem 1rem;
+  }
+
+  .service-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1rem;
+  }
+
+  .service-icon i {
+    font-size: 1.2rem;
+  }
+
+  .service-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .service-card p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+}
+
+/* Tablet - 768px ve altı */
+@media (max-width: 768px) {
+  .about {
+    padding: 60px 0;
+  }
+
+  .services {
+    padding: 40px 0;
+  }
+
+  .blog {
+    padding: 60px 0;
+  }
+
+  .contact {
+    padding: 60px 0 !important;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--primary-color);
+    flex-direction: column;
+    padding: 2rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+  }
+
+  .nav-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-actions .btn-call {
+    display: none;
+  }
+
+  /* Mobile Hero Optimizations */
+  .hero {
+    height: 100vh;
+  }
+
+  .hero-content {
+    padding: 0 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.2;
+  }
+
+  .hero-stats {
+    flex-direction: row;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding: 0 20px;
+  }
+
+  .stat-item {
+    text-align: center;
+    flex: 1;
+    max-width: 80px;
+  }
+
+  .stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    margin-top: 0.3rem;
+    line-height: 1.2;
+    opacity: 0.9;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 20px;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+    font-size: 0.95rem;
+    border-radius: 12px;
+  }
+
+  .btn-primary {
+    order: 1;
+  }
+
+  .btn-secondary {
+    order: 2;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .scroll-indicator {
+    bottom: 20px;
+    font-size: 0.8rem;
+  }
+
+  .scroll-line {
+    height: 30px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .about-hero-card {
+    padding: 1.5rem;
+    border-radius: 16px;
+    padding-bottom: 2.5rem;
+  }
+
+  .profile-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .profile-avatar i {
+    font-size: 1.5rem;
+  }
+
+  .profile-info h3 {
+    font-size: 1.5rem;
+  }
+
+  .credentials-badges {
+    justify-content: center;
+  }
+
+  .city-image-container {
+    height: 220px;
+    border-radius: 16px;
+  }
+
+  .city-overlay {
+    padding: 1.5rem;
+  }
+
+  .city-info h4 {
+    font-size: 1.3rem;
+  }
+
+  .professional-info-card {
+    padding: 1.5rem;
+  }
+
+  /* Blog kartları responsive - Ana sayfa */
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .blog-card {
+    height: 450px; /* Mobilde biraz daha küçük */
+  }
+
+  .blog-content {
+    padding: 1.5rem;
+  }
+
+  .blog-content h3 {
+    font-size: 1.2rem;
+    height: 2.8rem; /* Mobilde daha küçük */
+  }
+
+  .blog-content p {
+    font-size: 0.9rem;
+    height: 4.2rem; /* Mobilde daha küçük */
+  }
+
+  /* Mobile Contact - Hide Info Cards */
+  .contact-info-modern {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .contact-form-section {
+    max-width: 100% !important;
+  }
+
+  .contact-form {
+    padding: 2rem !important;
+    border-radius: 16px !important;
+  }
+
+  .contact-form h3 {
+    font-size: 1.3rem !important;
+  }
+
+  .form-description {
+    font-size: 0.95rem !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .contact-form .form-group input,
+  .contact-form .form-group select,
+  .contact-form .form-group textarea {
+    padding: 14px 20px !important;
+    font-size: 1rem !important;
+    border-radius: 12px !important;
+  }
+
+  .contact-form .btn-submit-modern {
+    padding: 16px 32px !important;
+    font-size: 1rem !important;
+  }
+}
+
+/* Mobile - 480px ve altı */
+@media (max-width: 480px) {
+  /* Ultra Mobile Optimizations */
+
+  .about {
+    padding: 40px 0;
+  }
+
+  .services {
+    padding: 30px 0;
+  }
+
+  .blog {
+    padding: 40px 0;
+  }
+
+  .contact {
+    padding: 40px 0 !important;
+  }
+
+  .hero-content {
+    padding: 0 10px;
+  }
+
+  .hero {
+    height: 100vh;
+  }
+
+  .hero-content {
+    padding: 0 10px;
+  }
+
+  .hero-title {
+    font-size: 2rem !important;
+    margin-bottom: 2rem;
+  }
+
+  .hero-subtitle {
+    display: none;
+  }
+
+  .hero-stats {
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 0 15px;
+  }
+
+  .stat-item {
+    max-width: 70px;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+  }
+
+  .hero-buttons {
+    padding: 0 15px;
+    max-width: 280px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .service-card,
+  .contact-form {
+    padding: 1.5rem;
+  }
+
+  .quick-action-btn {
+    padding: 1.5rem;
+  }
+
+  .action-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .action-title {
+    font-size: 1.1rem;
+  }
+
+  /* Services için ultra mobil optimizasyonu */
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .service-card {
+    height: 180px;
+    margin: 0 10px;
+  }
+
+  /* Blog kartları ultra mobil optimizasyonu */
+  .blog-card {
+    height: 420px; /* Ultra mobilde daha küçük */
+    margin: 0 0.5rem;
+  }
+
+  .blog-image {
+    height: 180px;
+  }
+
+  .blog-content {
+    padding: 1.2rem;
+  }
+
+  .blog-content h3 {
+    font-size: 1.1rem;
+    height: 2.6rem;
+  }
+
+  .blog-content p {
+    font-size: 0.85rem;
+    height: 3.9rem;
+  }
+
+  /* MOBİL: İletişim formunu tamamen gizle */
+  .contact-form-section {
+    display: none !important;
+  }
+
+  /* MOBİL: Info kartları tek kolonda göster */
+  .contact-info-modern {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .info-card-modern {
+    padding: 1.5rem !important;
+  }
+
+  .info-details h4 {
+    font-size: 1.1rem !important;
+  }
+
+  .info-details p {
+    font-size: 0.9rem !important;
+  }
+
+  /* Quick action buttons'ları daha belirgin yap */
+  .quick-actions {
+    margin-bottom: 2rem !important; /* Form olmadığı için daha az boşluk */
+  }
+
+  .quick-action-btn {
+    padding: 2rem 1.5rem !important;
+  }
+
+  .action-title {
+    font-size: 1.2rem !important;
+  }
+
+  .action-subtitle {
+    font-size: 1.1rem !important;
+  }
+}

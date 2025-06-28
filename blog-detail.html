@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="page-title">Blog Detayı | Çadırcı Hukuk</title>
+    <meta
+      name="description"
+      content="Hukuki konularda detaylı bilgiler ve uzman görüşleri."
+      id="page-description"
+    />
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="components.css" />
+    <link rel="stylesheet" href="responsive.css" />
+    <link rel="stylesheet" href="blog-detail.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="navbar-placeholder"></div>
+
+    <section class="blog-detail">
+      <div class="container">
+        <div id="loading" class="loading-spinner">
+          <div class="spinner"></div>
+          <p>Blog yazısı yükleniyor...</p>
+        </div>
+
+        <div id="error" class="error-message" style="display: none">
+          <h3>Blog yazısı bulunamadı</h3>
+          <p>Aradığınız blog yazısı mevcut değil veya kaldırılmış olabilir.</p>
+          <a href="blog.html" class="back-to-blog">
+            <i class="fas fa-arrow-left"></i>
+            Blog'a Dön
+          </a>
+        </div>
+
+        <div
+          id="blog-content"
+          class="blog-detail-container"
+          style="display: none"
+        >
+          <div class="blog-detail-header">
+            <img id="blog-image" src="" alt="" class="blog-detail-image" />
+            <div class="blog-detail-overlay">
+              <div id="blog-category" class="blog-category-detail"></div>
+              <h1 id="blog-title" class="blog-title-detail"></h1>
+              <div class="blog-meta-detail">
+                <span id="blog-date"></span>
+                <span id="blog-read-time"></span>
+                <span id="blog-author"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="blog-content-detail">
+            <div id="blog-introduction" class="blog-introduction"></div>
+
+            <div id="blog-sections"></div>
+
+            <div
+              id="blog-conclusion"
+              class="blog-conclusion"
+              style="display: none"
+            >
+              <div class="blog-conclusion-title">Sonuç</div>
+              <div id="conclusion-text"></div>
+            </div>
+
+            <div class="share-buttons">
+              <a
+                href="#"
+                class="share-btn facebook"
+                onclick="shareOnFacebook()"
+                title="Facebook'ta Paylaş"
+              >
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a
+                href="#"
+                class="share-btn twitter"
+                onclick="shareOnTwitter()"
+                title="Twitter'da Paylaş"
+              >
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a
+                href="#"
+                class="share-btn linkedin"
+                onclick="shareOnLinkedIn()"
+                title="LinkedIn'de Paylaş"
+              >
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a
+                href="#"
+                class="share-btn whatsapp"
+                onclick="shareOnWhatsApp()"
+                title="WhatsApp'ta Paylaş"
+              >
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="components.js"></script>
+    <script src="script.js"></script>
+    <script>
+      // Load blog content based on URL parameter
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const blogId = urlParams.get("id");
+
+        if (blogId) {
+          loadBlogContent(parseInt(blogId));
+        } else {
+          showError();
+        }
+      });
+
+      // Load blog content from blog.json
+      async function loadBlogContent(blogId) {
+        try {
+          const response = await fetch("blog.json");
+          const data = await response.json();
+
+          // Simulate loading delay
+          setTimeout(() => {
+            const blog = data.blogs.find((b) => b.id === blogId);
+
+            if (blog) {
+              displayBlogContent(blog);
+            } else {
+              showError();
+            }
+          }, 1000);
+        } catch (error) {
+          console.error("Blog yükleme hatası:", error);
+          showError();
+        }
+      }
+
+      function displayBlogContent(blog) {
+        // Hide loading, show content
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("blog-content").style.display = "block";
+
+        // Update page meta
+        document.getElementById("page-title").textContent =
+          blog.title + " | Çadırcı Hukuk";
+        document
+          .getElementById("page-description")
+          .setAttribute("content", blog.excerpt);
+
+        // Fill content
+        document.getElementById("blog-image").src = blog.image;
+        document.getElementById("blog-image").alt = blog.title;
+        document.getElementById("blog-category").textContent =
+          blog.categoryName;
+        document.getElementById("blog-title").textContent = blog.title;
+        document.getElementById("blog-date").textContent = formatDate(
+          blog.date
+        );
+        document.getElementById("blog-read-time").textContent = blog.readTime;
+        document.getElementById("blog-author").textContent = blog.author;
+        document.getElementById("blog-introduction").textContent =
+          blog.content.introduction;
+
+        // Fill sections
+        const sectionsContainer = document.getElementById("blog-sections");
+        sectionsContainer.innerHTML = "";
+
+        blog.content.sections.forEach((section) => {
+          const sectionDiv = document.createElement("div");
+          sectionDiv.className = "content-section";
+          sectionDiv.innerHTML = `
+            <h3 class="section-title">${section.title}</h3>
+            <p class="section-content">${section.content}</p>
+          `;
+          sectionsContainer.appendChild(sectionDiv);
+        });
+
+        // Fill conclusion
+        if (blog.content.conclusion) {
+          document.getElementById("blog-conclusion").style.display = "block";
+          document.getElementById("conclusion-text").textContent =
+            blog.content.conclusion;
+        }
+
+        // Store current blog for sharing
+        window.currentBlog = blog;
+      }
+
+      function showError() {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("error").style.display = "block";
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return date.toLocaleDateString("tr-TR", options);
+      }
+
+      // Share functions
+      function shareOnFacebook() {
+        const url = encodeURIComponent(window.location.href);
+        window.open(
+          `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+          "_blank"
+        );
+      }
+
+      function shareOnTwitter() {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent(window.currentBlog?.title || "");
+        window.open(
+          `https://twitter.com/intent/tweet?url=${url}&text=${text}`,
+          "_blank"
+        );
+      }
+
+      function shareOnLinkedIn() {
+        const url = encodeURIComponent(window.location.href);
+        window.open(
+          `https://www.linkedin.com/sharing/share-offsite/?url=${url}`,
+          "_blank"
+        );
+      }
+
+      function shareOnWhatsApp() {
+        const url = encodeURIComponent(window.location.href);
+        const text = encodeURIComponent(
+          `${window.currentBlog?.title || ""} - ${url}`
+        );
+        window.open(`https://wa.me/?text=${text}`, "_blank");
+      }
+    </script>
+  </body>
+</html>

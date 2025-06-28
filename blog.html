@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog - Hukuki Bilgiler ve Güncel Gelişmeler | Çadırcı Hukuk</title>
+    <meta
+      name="description"
+      content="Hukuki gelişmeler, müvekkil rehberleri ve uzman görüşleri. Ceza, aile, gayrimenkul ve ticaret hukuku konularında güncel blog yazıları."
+    />
+    <link rel="stylesheet" href="components.css" />
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="responsive.css" />
+    <link rel="stylesheet" href="blog-styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div id="navbar-placeholder"></div>
+
+    <section class="blog-hero">
+      <div class="hero-overlay"></div>
+      <div class="blog-hero-content">
+        <div class="container">
+          <div class="hero-text">
+            <span class="hero-subtitle">Blog</span>
+            <h1 class="hero-title">
+              Hukuki Bilgiler ve
+              <span class="highlight">Güncel Gelişmeler</span>
+            </h1>
+            <p class="hero-description">
+              Hukuk dünyasından güncel gelişmeler, müvekkil rehberleri ve uzman
+              analizleriyle hukuki bilginizi güncel tutun.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-categories">
+      <div class="container">
+        <div class="categories-list">
+          <button class="category-btn active" data-category="all">Tümü</button>
+          <button class="category-btn" data-category="ceza">Ceza Hukuku</button>
+          <button class="category-btn" data-category="aile">Aile Hukuku</button>
+          <button class="category-btn" data-category="gayrimenkul">
+            Gayrimenkul
+          </button>
+          <button class="category-btn" data-category="ticaret">
+            Ticaret Hukuku
+          </button>
+          <button class="category-btn" data-category="tazminat">
+            Tazminat
+          </button>
+          <button class="category-btn" data-category="danismanlik">
+            Hukuki Danışmanlık
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="blog-posts">
+      <div class="container">
+        <div id="loading" class="loading-spinner">
+          <div class="spinner"></div>
+          <p>Blog yazıları yükleniyor...</p>
+        </div>
+
+        <div
+          id="blog-posts-grid"
+          class="blog-posts-grid"
+          style="display: none"
+        ></div>
+
+        <div class="pagination" style="display: none">
+          <button class="pagination-btn active">1</button>
+          <button class="pagination-btn">2</button>
+          <button class="pagination-btn">3</button>
+          <button class="pagination-btn next">
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="newsletter">
+      <div class="container">
+        <div class="newsletter-content">
+          <div class="newsletter-text">
+            <h3>Hukuki Gelişmeleri Kaçırmayın</h3>
+            <p>
+              Yeni blog yazıları ve hukuki gelişmeler hakkında bildirim almak
+              için e-posta listemize katılın.
+            </p>
+          </div>
+          <div class="newsletter-form">
+            <input
+              type="email"
+              placeholder="E-posta adresinizi girin"
+              class="newsletter-input"
+            />
+            <button class="newsletter-btn">Abone Ol</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="components.js"></script>
+    <script src="script.js"></script>
+    <script>
+      // Blog specific functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        loadBlogPosts();
+        initializeCategoryFiltering();
+        initializeNewsletter();
+      });
+
+      // Load blog posts from blog.json
+      async function loadBlogPosts() {
+        try {
+          const response = await fetch("blog.json");
+          const data = await response.json();
+
+          const blogPostsGrid = document.getElementById("blog-posts-grid");
+          const loading = document.getElementById("loading");
+
+          // Hide loading
+          loading.style.display = "none";
+          blogPostsGrid.style.display = "grid";
+
+          // Generate HTML for all blog posts (all same size)
+          let html = "";
+
+          data.blogs.forEach((blog, index) => {
+            html += `
+              <article class="blog-post" data-category="${
+                blog.category
+              }" data-blog-id="${blog.id}">
+                <div class="post-image">
+                  <img src="${blog.image}" alt="${blog.title}" loading="lazy" />
+                  <div class="post-category">${blog.categoryName}</div>
+                  <div class="post-date">${formatDate(blog.date)}</div>
+                </div>
+                <div class="post-content">
+                  <h3>${blog.title}</h3>
+                  <p>${blog.excerpt}</p>
+                  <div class="post-meta">
+                    <div class="author-info">
+                      <div class="author-avatar">
+                        <i class="fas fa-user-tie"></i>
+                      </div>
+                      <span class="author-name">${blog.author}</span>
+                    </div>
+                    <span class="read-time">${blog.readTime}</span>
+                  </div>
+                  <a href="blog-detail.html?id=${
+                    blog.id
+                  }" class="read-more-btn">Devamını Oku</a>
+                </div>
+              </article>
+            `;
+          });
+
+          blogPostsGrid.innerHTML = html;
+
+          // Blog kartları tıklama işlevini başlat (bu fonksiyonun içeriği değişmediği sürece kalsın)
+          initBlogCards();
+
+          // Show pagination
+          document.querySelector(".pagination").style.display = "flex";
+        } catch (error) {
+          console.error("Blog yükleme hatası:", error);
+          document.getElementById("loading").innerHTML =
+            "<p>Blog yazıları yüklenemedi.</p>";
+        }
+      }
+
+      // Initialize category filtering - BURASI GÜNCELLENDİ
+      function initializeCategoryFiltering() {
+        const categoryBtns = document.querySelectorAll(".category-btn");
+
+        categoryBtns.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const category = this.getAttribute("data-category");
+
+            // Update active button
+            categoryBtns.forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
+
+            // Filter posts - Animasyon gecikmeleri kaldırıldı, doğrudan gizle/göster
+            const blogPosts = document.querySelectorAll(".blog-post");
+            blogPosts.forEach((post) => {
+              if (
+                category === "all" ||
+                post.getAttribute("data-category") === category
+              ) {
+                post.style.display = "block";
+              } else {
+                post.style.display = "none";
+              }
+            });
+          });
+        });
+      }
+
+      // Newsletter form
+      // Telegram Bot Configuration - blog.html dosyasının en üstüne ekleyin
+      const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "";
+      const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "";
+
+      // Newsletter form - Bu fonksiyon eskisinin yerine geçecek
+      // blog.html dosyanızda initializeNewsletter fonksiyonunu bu kodla değiştirin
+      function initializeNewsletter() {
+        const newsletterBtn = document.querySelector(".newsletter-btn");
+        const newsletterInput = document.querySelector(".newsletter-input");
+
+        if (newsletterBtn && newsletterInput) {
+          newsletterBtn.addEventListener("click", handleSubscriptionClick);
+
+          newsletterInput.addEventListener("keypress", function (e) {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              handleSubscriptionClick(e);
+            }
+          });
+        }
+
+        async function handleSubscriptionClick(e) {
+          e.preventDefault();
+          const email = newsletterInput.value.trim();
+
+          // E-posta doğrulama
+          if (!email) {
+            showMessage("Lütfen e-posta adresinizi girin.", "error");
+            return;
+          }
+
+          if (!isValidEmail(email)) {
+            showMessage("Geçerli bir e-posta adresi girin.", "error");
+            return;
+          }
+
+          // Loading state
+          setButtonLoading(true);
+
+          try {
+            // Netlify Function'a gönder (artık Telegram'a değil)
+            const response = await fetch("/.netlify/functions/newsletter", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email: email }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+              showMessage(data.message, "success");
+              newsletterInput.value = "";
+            } else {
+              throw new Error(data.error || "Bir hata oluştu");
+            }
+          } catch (error) {
+            console.error("Newsletter error:", error);
+            showMessage(
+              error.message || "Bir hata oluştu, lütfen tekrar deneyin.",
+              "error"
+            );
+          } finally {
+            setButtonLoading(false);
+          }
+        }
+
+        // Telegram kodlarını kaldırdık, sadece yardımcı fonksiyonlar kaldı
+        function setButtonLoading(loading) {
+          const btn = newsletterBtn;
+
+          if (loading) {
+            btn.disabled = true;
+            btn.innerHTML = '<div class="btn-spinner"></div> Gönderiliyor...';
+          } else {
+            btn.disabled = false;
+            setTimeout(() => {
+              btn.innerHTML = "Abone Ol";
+            }, 2000);
+          }
+        }
+
+        function showMessage(text, type) {
+          const existingMessage = document.querySelector(".status-message");
+          if (existingMessage) {
+            existingMessage.remove();
+          }
+
+          const messageEl = document.createElement("div");
+          messageEl.className = `status-message ${type}`;
+          messageEl.textContent = text;
+
+          const newsletterContent = document.querySelector(
+            ".newsletter-content"
+          );
+          if (newsletterContent) {
+            newsletterContent.appendChild(messageEl);
+
+            setTimeout(() => {
+              messageEl.classList.add("show");
+            }, 100);
+
+            setTimeout(() => {
+              messageEl.classList.remove("show");
+              setTimeout(() => {
+                if (messageEl.parentNode) {
+                  messageEl.remove();
+                }
+              }, 300);
+            }, 5000);
+          }
+        }
+
+        function isValidEmail(email) {
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          return emailRegex.test(email);
+        }
+      }
+      // CSS stilleri için (blog.html'in head bölümüne ekleyin veya blog-styles.css'e)
+      if (!document.querySelector("#newsletter-spinner-styles")) {
+        const style = document.createElement("style");
+        style.id = "newsletter-spinner-styles";
+        style.textContent = `
+    .btn-spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid var(--white);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .status-message {
+      margin-top: 1rem;
+      padding: 12px 20px;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      grid-column: span 2;
+    }
+    
+    .status-message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .status-message.success {
+      background: rgba(76, 175, 80, 0.2);
+      color: #4CAF50;
+      border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+    
+    .status-message.error {
+      background: rgba(244, 67, 54, 0.2);
+      color: #f44336;
+      border: 1px solid rgba(244, 67, 54, 0.3);
+    }
+    
+    @media (max-width: 1024px) {
+      .status-message {
+        grid-column: span 1;
+      }
+    }
+  `;
+        document.head.appendChild(style);
+      }
+      // Format date helper function
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return date.toLocaleDateString("tr-TR", options);
+      }
+    </script>
+  </body>
+</html>
